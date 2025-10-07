@@ -1,1 +1,1 @@
-# Parlelizacion
+# Paralelizacion 👍
