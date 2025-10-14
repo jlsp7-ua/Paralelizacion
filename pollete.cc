@@ -1,5 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
+#include <filesystem>
 using namespace cv;
 
 // Función para colorear una imagen
@@ -43,10 +44,10 @@ int main() {
     Mat green = colorize(img, Scalar(0, 255, 0));
     Mat blue  = colorize(img, Scalar(255, 0, 0));
     Mat yellow= colorize(img, Scalar(0, 255, 255));
-    imwrite("red.png", red);
-    imwrite("green.png", green);
-    imwrite("blue.png", blue);
-    imwrite("yellow.png", yellow);
+    imwrite("resultados/red.png", red);
+    imwrite("resultados/green.png", green);
+    imwrite("resultados/blue.png", blue);
+    imwrite("resultados/yellow.png", yellow);
 
     // Aplicar bilateral filter a cada una por separado
     Mat red_b, green_b, blue_b, yellow_b;
@@ -54,23 +55,23 @@ int main() {
     bilateralFilter(green,  green_b,  9, 150, 150);
     bilateralFilter(blue,   blue_b,   9, 150, 150);
     bilateralFilter(yellow, yellow_b, 9, 150, 150);
-    imwrite("redb.png", red_b);
-    imwrite("greenb.png", green_b);
-    imwrite("blueb.png", blue_b);
-    imwrite("yellowb.png", yellow_b);
+    imwrite("resultados/redb.png", red_b);
+    imwrite("resultados/greenb.png", green_b);
+    imwrite("resultados/blueb.png", blue_b);
+    imwrite("resultados/yellowb.png", yellow_b);
 
     // Combinar en cuadrícula 2x2
     Mat top, bottom, final_img;
     hconcat(red_b, green_b, top);
     hconcat(blue_b, yellow_b, bottom);
     vconcat(top, bottom, final_img);
-    imwrite("combined.png", final_img);
+    imwrite("resultados/combined.png", final_img);
 
     // Blur global + efecto cómic
     Mat comic;
     comic = comicEffect(final_img);
 
-    imwrite("resultado_bilateral_comic.png", comic);
+    imwrite("resultados/resultado_bilateral_comic.png", comic);
     waitKey(0);
     return 0;
 }
