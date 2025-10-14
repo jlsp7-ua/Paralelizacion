@@ -31,8 +31,13 @@ Mat comicEffect(const Mat& img) {
     return comic;
 }
 
-int main() {
-    Mat img = imread("alexelcapo.jpg");
+int main(int argc, char* argv[]) {
+    if (argc != 2){
+        printf("Argumento: [img]");
+        return 0;
+    }
+    Mat img = imread(argv[1]);
+    
     if (img.empty()) {
         printf("No se pudo cargar la imagen\n");
         return -1;
@@ -50,10 +55,14 @@ int main() {
 
     // Aplicar bilateral filter a cada una por separado
     Mat red_b, green_b, blue_b, yellow_b;
-    bilateralFilter(red,    red_b,    9, 150, 150);
-    bilateralFilter(green,  green_b,  9, 150, 150);
-    bilateralFilter(blue,   blue_b,   9, 150, 150);
-    bilateralFilter(yellow, yellow_b, 9, 150, 150);
+    bilateralFilter(red, red_b,15, 200, 200);          // bilateral
+    GaussianBlur(green, green_b, Size(15,15), 10);
+    medianBlur(blue, blue_b, 15); // kernel grande
+    Canny(yellow, yellow_b, 100, 200);                      // detección de bordes
+
+// Convertir a 3 canales SOLO si tiene 1 canal
+    if (yellow_b.channels()== 1) cvtColor(yellow_b, yellow_b, COLOR_GRAY2BGR);
+
     imwrite("redb.png", red_b);
     imwrite("greenb.png", green_b);
     imwrite("blueb.png", blue_b);
@@ -66,7 +75,7 @@ int main() {
     vconcat(top, bottom, final_img);
     imwrite("combined.png", final_img);
 
-    // Blur global + efecto cómic
+    // efecto cómic
     Mat comic;
     comic = comicEffect(final_img);
 
