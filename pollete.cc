@@ -1,9 +1,11 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 #include <filesystem>
+#include <chrono>
+#include <iostream>
 using namespace cv;
 
-namespace fs = std::filesystem; 
+namespace fs = std::filesystem;
 
 // Función para colorear una imagen
 Mat colorize(const Mat& img, const Scalar& color) {
@@ -45,6 +47,10 @@ int main(int argc, char* argv[]) {
         printf("No se pudo cargar la imagen\n");
         return -1;
     }
+
+    // CRONÓMETRO
+    std::cout << "Iniciando tarea..." << std::endl;
+    std::clock_t start = std::clock();
 
     const std::string OUTPUT_DIR = "resultados";
     try {
@@ -99,5 +105,9 @@ int main(int argc, char* argv[]) {
 
     imwrite("resultados/resultado_bilateral_comic.png", comic);
     waitKey(0);
+
+    double duration = (double)(std::clock() - start) / CLOCKS_PER_SEC;
+    std::cout << "Tiempo de CPU transcurrido: " << duration << " segundos." << std::endl;
+
     return 0;
 }
