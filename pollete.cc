@@ -3,6 +3,8 @@
 #include <filesystem>
 using namespace cv;
 
+namespace fs = std::filesystem; 
+
 // Función para colorear una imagen
 Mat colorize(const Mat& img, const Scalar& color) {
     Mat colored;
@@ -41,6 +43,21 @@ int main(int argc, char* argv[]) {
     
     if (img.empty()) {
         printf("No se pudo cargar la imagen\n");
+        return -1;
+    }
+
+    const std::string OUTPUT_DIR = "resultados";
+    try {
+        if (!fs::exists(OUTPUT_DIR)) {
+            if (fs::create_directory(OUTPUT_DIR)) {
+                printf("Directorio '%s' creado con éxito.\n", OUTPUT_DIR.c_str());
+            } else {
+                printf("No se pudo crear el directorio '%s'.\n", OUTPUT_DIR.c_str());
+                return -1; 
+            }
+        }
+    } catch (const fs::filesystem_error& e) {
+        printf("Error del sistema de archivos al crear el directorio: %s\n", e.what());
         return -1;
     }
 
