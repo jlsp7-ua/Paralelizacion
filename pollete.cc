@@ -64,10 +64,10 @@ int main(int argc, char* argv[]) {
 // Convertir a 3 canales SOLO si tiene 1 canal
     if (yellow_b.channels()== 1) cvtColor(yellow_b, yellow_b, COLOR_GRAY2BGR);
 
-    imwrite("redb.png", red_b);
-    imwrite("greenb.png", green_b);
-    imwrite("blueb.png", blue_b);
-    imwrite("yellowb.png", yellow_b);
+    imwrite("resultados/redb.png", red_b);
+    imwrite("resultados/greenb.png", green_b);
+    imwrite("resultados/blueb.png", blue_b);
+    imwrite("resultados/yellowb.png", yellow_b);
 
     // Combinar en cuadrícula 2x2
     Mat top, bottom, final_img;
