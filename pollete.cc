@@ -38,7 +38,7 @@ Mat comicEffect(const Mat& img) {
 
 int main(int argc, char* argv[]) {
     if (argc != 2){
-        printf("Argumento: [img]");
+        printf("Argumento: [img]\n");
         return 0;
     }
     Mat img = imread(argv[1]);
